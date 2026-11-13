@@ -1,0 +1,106 @@
+<section class="page"><h1>Informes</h1><div class="report-actions"><button type="button">Actividades en PDF</button><button type="button">Empleados en PDF</button><button type="button">Dependencias en PDF</button><button type="button">Ausencias en PDF</button></div></section>
+<div class="page-container">
+
+  <h1 class="page-title">
+    Informes
+  </h1>
+
+  <p class="page-subtitle">
+    Descarga informes de gestión en formato PDF
+  </p>
+
+  <div class="reports-grid">
+
+    <div class="report-card">
+
+      <h2>Informe de empleados</h2>
+
+      <p>
+        Informe con la información de los empleados.
+      </p>
+
+      <button
+        class="btn btn-primary"
+        (click)="downloadEmployeesReport()">
+
+        Descargar PDF
+
+      </button>
+
+    </div>
+
+    <div class="report-card">
+
+      <h2>Informe de dependencias</h2>
+
+      <p>
+        Dependencias y número de empleados.
+      </p>
+
+      <button
+        class="btn btn-primary"
+        (click)="downloadDependenciesReport()">
+
+        Descargar PDF
+
+      </button>
+
+    </div>
+
+    <div class="report-card">
+
+      <h2>Informe de actividades</h2>
+
+      <p>
+        Actividades realizadas por área.
+      </p>
+
+      <button
+        class="btn btn-primary"
+        (click)="downloadActivitiesReport()">
+
+        Descargar PDF
+
+      </button>
+
+    </div>
+
+    <div class="report-card">
+
+      <h2>Informe de ausencias</h2>
+
+      <p>
+        Vacaciones, permisos e incapacidades.
+      </p>
+
+      <button
+        class="btn btn-primary"
+        (click)="downloadAbsencesReport()">
+
+        Descargar PDF
+
+      </button>
+
+    </div>
+
+    <div class="report-card">
+
+      <h2>Informe mensual de gestión</h2>
+
+      <p>
+        Indicadores generales de gestión.
+      </p>
+
+      <button
+        class="btn btn-success"
+        (click)="downloadMonthlyReport()">
+
+        Descargar PDF
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

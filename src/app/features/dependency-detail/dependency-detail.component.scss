@@ -1,0 +1,44 @@
+.dependency-card{
+
+  background:white;
+
+  border-radius:18px;
+
+  padding:24px;
+
+  border-left:
+  6px solid var(--info);
+
+}
+
+.detail-header {
+
+  margin-bottom: 25px;
+
+}
+
+.detail-header p {
+
+  margin-top: 10px;
+
+  color: #64748b;
+
+}
+
+.detail-info {
+
+  display: flex;
+
+  gap: 40px;
+
+  margin-top: 25px;
+
+}
+
+.detail-info div {
+
+  display: flex;
+
+  flex-direction: column;
+
+}

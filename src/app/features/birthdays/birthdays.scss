@@ -1,0 +1,37 @@
+.filters {
+  margin-bottom: 1.25rem;
+}
+
+.filters input {
+  width: 100%;
+  max-width: 25rem;
+  padding: 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.625rem;
+}
+
+table {
+  width: 100%;
+  margin-top: 1.25rem;
+  border-collapse: collapse;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.badge-success {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.badge-warning {
+  color: #92400e;
+  background: #fef3c7;
+}

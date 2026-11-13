@@ -1,0 +1,69 @@
+<div class="app-layout" [class.login-layout]="isLoginRoute">
+
+  <aside class="sidebar" *ngIf="!isLoginRoute">
+
+    <div class="logo">
+
+      <h2>EPQ</h2>
+
+      <span>Talento Humano</span>
+
+    </div>
+
+    <nav>
+
+      <a routerLink="/dashboard">
+        Panel principal
+      </a>
+
+      <a routerLink="/employees">
+        Empleados
+      </a>
+
+      <a routerLink="/dependencies">
+        Dependencias
+      </a>
+
+      <a routerLink="/activities">
+        Actividades
+      </a>
+
+      <a routerLink="/absences">
+        Ausencias
+      </a>
+
+      <a routerLink="/history">
+        Historial
+      </a>
+
+      <a routerLink="/statistics">
+        Estadísticas
+      </a>
+
+      <a routerLink="/reports">
+        Informes
+      </a>
+
+      <a routerLink="/birthdays">
+        Cumpleaños
+      </a>
+
+      <a routerLink="/birthday-templates">
+        Plantillas
+      </a>
+
+      <a routerLink="/notifications">
+        Notificaciones
+      </a>
+
+    </nav>
+
+  </aside>
+
+  <main [class.content]="!isLoginRoute" [class.login-content]="isLoginRoute">
+
+    <router-outlet></router-outlet>
+
+  </main>
+
+</div>

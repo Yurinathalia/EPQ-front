@@ -1,0 +1,32 @@
+<div class="page-container">
+  <section class="detail-header card">
+    <h1>{{ dependency.name }}</h1>
+    <p>{{ dependency.description }}</p>
+    <div class="detail-info">
+      <div>
+        <strong>Responsable</strong>
+        <span>{{ dependency.responsible }}</span>
+      </div>
+      <div>
+        <strong>Empleados</strong>
+        <span>{{ dependency.employeeCount }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Empleados</h2>
+    <table>
+      <thead>
+        <tr><th>Documento</th><th>Nombre completo</th><th>Cargo</th></tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <td>{{ employee.document }}</td>
+          <td>{{ employee.fullName }}</td>
+          <td>{{ employee.position }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

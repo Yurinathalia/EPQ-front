@@ -1,0 +1,31 @@
+<div class="page-container">
+  <h1 class="page-title">Plantillas de cumpleaños</h1>
+
+  <p class="page-subtitle">Administra las plantillas de felicitación de cumpleaños</p>
+
+  <div class="actions">
+    <button class="btn btn-primary" routerLink="/birthday-template-form">Nueva plantilla</button>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card" *ngFor="let template of templates">
+      <div class="image-container">
+        <img *ngIf="template.imageUrl" [src]="template.imageUrl" alt="Plantilla de cumpleaños" />
+      </div>
+
+      <h3>
+        {{ template.name }}
+      </h3>
+
+      <p>
+        {{ template.message }}
+      </p>
+
+      <div class="buttons">
+        <button class="btn btn-primary">Editar</button>
+
+        <button class="btn btn-success">Usar</button>
+      </div>
+    </div>
+  </div>
+</div>

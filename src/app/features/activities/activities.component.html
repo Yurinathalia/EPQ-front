@@ -1,0 +1,104 @@
+<section class="page"><h1>Actividades</h1><p>Capacitaciones, jornadas, eventos y reuniones.</p><table><thead><tr><th>Actividad</th><th>Tipo</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead><tbody><tr><td colspan="5">No hay actividades para mostrar.</td></tr></tbody></table></section>
+<div class="page-container">
+
+  <h1 class="page-title">
+
+    Actividades
+
+  </h1>
+
+  <p class="page-subtitle">
+
+    Capacitaciones, reuniones,
+    eventos y campañas
+
+  </p>
+
+  <div class="filters">
+
+    <input
+      type="text"
+      placeholder="Buscar actividad"
+      [(ngModel)]="searchTerm"
+      (input)="filterActivities()">
+
+    <button
+      class="btn btn-primary"
+      routerLink="/activity-form">
+
+      Nueva actividad
+
+    </button>
+
+  </div>
+
+  <table *ngIf="!loading">
+
+    <thead>
+
+      <tr>
+
+        <th>Título</th>
+
+        <th>Tipo</th>
+
+        <th>Estado</th>
+
+        <th>Inicio</th>
+
+        <th>Fin</th>
+
+        <th>Ubicación</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr
+        *ngFor="let activity of filteredActivities">
+
+        <td>
+
+          {{ activity.title }}
+
+        </td>
+
+        <td>
+
+          {{ getActivityTypeLabel(activity.activityType) }}
+
+        </td>
+
+        <td>
+
+          {{ getStatusLabel(activity.status) }}
+
+        </td>
+
+        <td>
+
+          {{ activity.startAt }}
+
+        </td>
+
+        <td>
+
+          {{ activity.endAt }}
+
+        </td>
+
+        <td>
+
+          {{ activity.location }}
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

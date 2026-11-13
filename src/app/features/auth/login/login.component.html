@@ -1,0 +1,84 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <h1>EPQ</h1>
+      <p>Sistema de Gestión de Talento Humano</p>
+    </div>
+
+    <h2>{{ isRegistering ? 'Crear cuenta' : 'Iniciar sesión' }}</h2>
+    <p class="description">
+      {{ isRegistering ? 'Registra tus datos para acceder al sistema.' : 'Ingresa con tu usuario y contraseña.' }}
+    </p>
+
+    <p *ngIf="errorMessage" class="feedback error" role="alert">{{ errorMessage }}</p>
+    <p *ngIf="successMessage" class="feedback success" role="status">{{ successMessage }}</p>
+
+    <form (ngSubmit)="submit()" #authForm="ngForm">
+      <ng-container *ngIf="!isRegistering; else registrationFields">
+        <input
+          type="text"
+          name="identificador"
+          placeholder="Usuario o correo electrónico"
+          autocomplete="username"
+          [(ngModel)]="identificador"
+          required>
+
+        <input
+          type="password"
+          name="password"
+          placeholder="Contraseña"
+          autocomplete="current-password"
+          [(ngModel)]="password"
+          required>
+      </ng-container>
+
+      <ng-template #registrationFields>
+        <input
+          type="text"
+          name="username"
+          placeholder="Nombre de usuario"
+          autocomplete="username"
+          [(ngModel)]="username"
+          required>
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Correo electrónico"
+          autocomplete="email"
+          [(ngModel)]="email"
+          required>
+
+        <input
+          type="password"
+          name="registrationPassword"
+          placeholder="Contraseña (mínimo 6 caracteres)"
+          autocomplete="new-password"
+          [(ngModel)]="registrationPassword"
+          minlength="6"
+          required>
+      </ng-template>
+
+      <button
+        type="submit"
+        class="login-button"
+        [disabled]="loading || authForm.invalid">
+        {{ loading ? (isRegistering ? 'Creando cuenta...' : 'Ingresando...') : (isRegistering ? 'Crear cuenta' : 'Ingresar') }}
+      </button>
+    </form>
+
+    <div class="separator"><span>o</span></div>
+
+    <p class="register-text">
+      {{ isRegistering ? '¿Ya tienes una cuenta?' : '¿Necesitas una cuenta nueva?' }}
+    </p>
+
+    <button
+      type="button"
+      class="register-button"
+      [disabled]="loading"
+      (click)="toggleMode()">
+      {{ isRegistering ? 'Iniciar sesión' : 'Crear cuenta' }}
+    </button>
+  </div>
+</div>

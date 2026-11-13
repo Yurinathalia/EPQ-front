@@ -1,0 +1,274 @@
+<div class="page-container">
+  <h1 class="page-title">Empleados</h1>
+
+  <p class="page-subtitle">Consulta y gestión de empleados</p>
+
+  <div class="search-box">
+
+  <input
+    type="text"
+    placeholder="Buscar por nombre completo, documento, cargo, ciudad o teléfono"
+    [(ngModel)]="searchTerm"
+    (input)="searchEmployee()">
+
+  <button
+    class="btn btn-primary"
+    (click)="searchEmployee()">
+
+    Buscar
+
+  </button>
+
+</div>
+
+  <div *ngIf="searched && filteredEmployees.length === 0" class="no-results">
+    No se encontraron empleados.
+  </div>
+
+  <div *ngIf="saveSuccess" class="save-success" role="status">
+    {{ saveSuccess }}
+  </div>
+
+  <div *ngFor="let employee of filteredEmployees" class="employee-card">
+    <div class="employee-header">
+      <div class="employee-photo">
+        <img *ngIf="employee.photoUrl" [src]="employee.photoUrl" />
+
+        <div *ngIf="!employee.photoUrl" class="photo-placeholder">👤</div>
+      </div>
+
+      <div>
+        <h2>
+          {{ employee.firstName }}
+          {{ employee.middleName }}
+          {{ employee.lastName }}
+          {{ employee.secondLastName }}
+        </h2>
+
+        <span class="status">
+          {{ employee.employmentStatus }}
+        </span>
+      </div>
+    </div>
+
+    <div *ngIf="editingEmployee?.id === employee.id" class="edit-overlay">
+      <ng-container *ngIf="editingEmployee as formEmployee">
+      <section class="edit-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+        <h2 id="edit-title">Editar empleado</h2>
+        <p class="edit-id">ID del empleado: {{ formEmployee.id }} (no editable)</p>
+
+        <form (ngSubmit)="saveEmployee()">
+          <div class="edit-fields">
+            <label>
+              Tipo de documento
+              <input name="documentType" [(ngModel)]="formEmployee.documentType">
+            </label>
+            <label>
+              Número de documento
+              <input name="documentNumber" [(ngModel)]="formEmployee.documentNumber">
+            </label>
+            <label>
+              Primer nombre
+              <input name="firstName" [(ngModel)]="formEmployee.firstName">
+            </label>
+            <label>
+              Segundo nombre
+              <input name="middleName" [(ngModel)]="formEmployee.middleName">
+            </label>
+            <label>
+              Primer apellido
+              <input name="lastName" [(ngModel)]="formEmployee.lastName">
+            </label>
+            <label>
+              Segundo apellido
+              <input name="secondLastName" [(ngModel)]="formEmployee.secondLastName">
+            </label>
+            <label>
+              Sexo
+              <input name="sex" [(ngModel)]="formEmployee.sex">
+            </label>
+            <label>
+              Fecha de nacimiento
+              <input name="birthDate" type="date" [(ngModel)]="formEmployee.birthDate">
+            </label>
+            <label>
+              Dirección
+              <input name="address" [(ngModel)]="formEmployee.address">
+            </label>
+            <label>
+              Ciudad
+              <input name="city" [(ngModel)]="formEmployee.city">
+            </label>
+            <label>
+              Teléfono
+              <input name="phone" type="tel" [(ngModel)]="formEmployee.phone">
+            </label>
+            <label>
+              Correo personal
+              <input name="personalEmail" type="email" [(ngModel)]="formEmployee.personalEmail">
+            </label>
+            <label>
+              Correo institucional
+              <input name="institutionalEmail" type="email" [(ngModel)]="formEmployee.institutionalEmail">
+            </label>
+            <label>
+              Cargo
+              <input name="jobTitle" [(ngModel)]="formEmployee.jobTitle">
+            </label>
+            <label>
+              URL de la foto
+              <input name="photoUrl" type="url" [(ngModel)]="formEmployee.photoUrl">
+            </label>
+            <label>
+              Estado laboral
+              <input name="employmentStatus" [(ngModel)]="formEmployee.employmentStatus">
+            </label>
+            <label>
+              Fecha de ingreso
+              <input name="hireDate" type="date" [(ngModel)]="formEmployee.hireDate">
+            </label>
+            <label>
+              Fecha de retiro
+              <input name="endDate" type="date" [(ngModel)]="formEmployee.endDate">
+            </label>
+            <label>
+              Número de cuenta
+              <input name="accountNumber" [(ngModel)]="formEmployee.accountNumber">
+            </label>
+            <label>
+              Tipo de contrato
+              <input name="contractType" [(ngModel)]="formEmployee.contractType">
+            </label>
+            <label>
+              Salario
+              <input name="salary" type="number" min="0" step="any" [(ngModel)]="formEmployee.salary">
+            </label>
+          </div>
+
+          <p *ngIf="saveError" class="save-error" role="alert">{{ saveError }}</p>
+
+          <div class="edit-actions">
+            <button type="button" class="btn btn-secondary" (click)="cancelEdit()" [disabled]="saving">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-success" [disabled]="saving">
+              {{ saving ? 'Guardando...' : 'Guardar cambios' }}
+            </button>
+          </div>
+        </form>
+      </section>
+      </ng-container>
+    </div>
+
+    <div class="employee-info">
+      <p>
+        <strong>Tipo Documento:</strong>
+        {{ employee.documentType || 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Documento:</strong>
+        {{ employee.documentNumber }}
+      </p>
+
+      <p>
+        <strong>Nombre Completo:</strong>
+
+        {{
+          employee.fullName
+            ? employee.fullName
+            : (
+                (employee.firstName || '') +
+                ' ' +
+                (employee.middleName || '') +
+                ' ' +
+                (employee.lastName || '') +
+                ' ' +
+                (employee.secondLastName || '')
+              ).trim()
+        }}
+      </p>
+
+      <p>
+        <strong>Edad:</strong>
+        {{ calculateAge(employee.birthDate) }}
+      </p>
+
+      <p>
+        <strong>Sexo:</strong>
+        {{ employee.sex || 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Fecha Nacimiento:</strong>
+        {{ employee.birthDate || 'No registrada' }}
+      </p>
+
+      <p>
+        <strong>Dirección:</strong>
+        {{ employee.address || 'No registrada' }}
+      </p>
+
+      <p>
+        <strong>Ciudad:</strong>
+        {{ employee.city || 'No registrada' }}
+      </p>
+
+      <p>
+        <strong>Teléfono:</strong>
+        {{ employee.phone || 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Correo Personal:</strong>
+        {{ employee.personalEmail || 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Correo Institucional:</strong>
+        {{ employee.institutionalEmail || 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Cargo:</strong>
+        {{ employee.jobTitle || 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Número de Cuenta:</strong>
+
+        {{ employee.accountNumber ? employee.accountNumber : 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Tipo de Contrato:</strong>
+        {{ employee.contractType || 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Salario:</strong>
+        $ {{ employee.salary | number }}
+      </p>
+
+      <p>
+        <strong>Estado:</strong>
+        {{ employee.employmentStatus || 'No registrado' }}
+      </p>
+
+      <p>
+        <strong>Fecha Ingreso:</strong>
+        {{ employee.hireDate || 'No registrada' }}
+      </p>
+
+      <p>
+        <strong>Fecha Retiro:</strong>
+        {{ employee.endDate || 'No registrada' }}
+      </p>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-success" (click)="editEmployee(employee)">Editar</button>
+    </div>
+  </div>
+
+</div>

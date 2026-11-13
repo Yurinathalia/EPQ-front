@@ -1,0 +1,68 @@
+.employees {
+  border-left: 6px solid #2563eb;
+}
+
+.dependencies {
+  border-left: 6px solid #22c55e;
+}
+
+.activities {
+  border-left: 6px solid #0ea5e9;
+}
+
+.planned {
+  border-left: 6px solid #f59e0b;
+}
+
+.cancelled {
+  border-left: 6px solid #ef4444;
+}
+
+.absences {
+  border-left: 6px solid #8b5cf6;
+}
+
+.vacations {
+  border-left: 6px solid #14b8a6;
+}
+
+.compliance {
+  border-left: 6px solid #84cc16;
+}
+
+.card span {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.error-box {
+  background: #fee2e2;
+  padding: 20px;
+  border-radius: 12px;
+  color: #991b1b;
+}
+
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .08);
+  transition: .3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.card span {
+  display: block;
+  margin-top: 10px;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+}

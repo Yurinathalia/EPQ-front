@@ -1,0 +1,111 @@
+.app-layout {
+
+  display: flex;
+
+  min-height: 100vh;
+
+  background: #f8fafc;
+
+}
+
+.sidebar {
+
+  width: 270px;
+
+  background: linear-gradient(
+      180deg,
+      #0f172a,
+      #1e293b
+  );
+
+  color: white;
+
+  display: flex;
+
+  flex-direction: column;
+
+  box-shadow: 4px 0 15px rgba(0,0,0,.15);
+
+}
+
+.logo {
+
+  padding: 30px;
+
+  border-bottom: 1px solid rgba(255,255,255,.1);
+
+}
+
+.logo h2 {
+
+  margin: 0;
+
+  font-size: 2rem;
+
+}
+
+.logo span {
+
+  opacity: .8;
+
+}
+
+.sidebar nav {
+
+  display: flex;
+
+  flex-direction: column;
+
+  padding: 20px 10px;
+
+}
+
+.sidebar nav a {
+
+  color: white;
+
+  text-decoration: none;
+
+  padding: 14px 18px;
+
+  margin-bottom: 8px;
+
+  border-radius: 12px;
+
+  transition: .3s;
+
+  font-weight: 500;
+
+}
+
+.sidebar nav a:hover {
+
+  background: rgba(255,255,255,.12);
+
+  transform: translateX(5px);
+
+}
+
+.content {
+
+  flex: 1;
+
+  padding: 30px;
+
+  overflow: auto;
+
+}
+
+.app-layout.login-layout {
+
+  display: block;
+
+  background: transparent;
+
+}
+
+.login-content {
+
+  min-height: 100vh;
+
+}

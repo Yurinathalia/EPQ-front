@@ -1,0 +1,36 @@
+.reports-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(320px, 1fr));
+
+  gap: 20px;
+
+}
+
+.report-card {
+
+  background: white;
+
+  border-radius: 18px;
+
+  padding: 25px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.report-card h2 {
+
+  margin-bottom: 15px;
+
+}
+
+.report-card p {
+
+  margin-bottom: 20px;
+
+  color: #64748b;
+
+}

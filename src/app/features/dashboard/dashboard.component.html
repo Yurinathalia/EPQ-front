@@ -1,0 +1,21 @@
+<section class="page-container">
+  <header class="dashboard-header">
+    <h1 class="page-title">Panel principal</h1>
+    <p class="page-subtitle">Sistema de gestión del talento humano</p>
+  </header>
+
+  <div *ngIf="loading" class="loading" role="status">Cargando panel...</div>
+
+  <div *ngIf="error" class="error-box" role="alert">
+    <p>{{ errorMessage }}</p>
+    <button type="button" class="btn btn-primary" (click)="loadStatistics()">Reintentar</button>
+  </div>
+
+  <section *ngIf="statistics && !loading && !error" class="cards-grid" aria-label="Indicadores clave">
+    <article class="card employees"><h2>Total de empleados</h2><p>{{ statistics.employees }}</p></article>
+    <article class="card dependencies"><h2>Empleados activos</h2><p>{{ statistics.activeEmployees }}</p></article>
+    <article class="card planned"><h2>Total de dependencias</h2><p>{{ statistics.dependencies }}</p></article>
+    <article class="card absences"><h2>Total de ausencias</h2><p>{{ statistics.absences }}</p></article>
+    <article class="card activities"><h2>Total de actividades</h2><p>{{ statistics.activities }}</p></article>
+  </section>
+</section>

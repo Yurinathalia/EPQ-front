@@ -1,0 +1,105 @@
+<div class="page-container">
+
+  <h1 class="page-title">
+    Estadísticas
+  </h1>
+
+  <p class="page-subtitle">
+    Indicadores y análisis de gestión
+  </p>
+
+  <div class="charts-grid">
+
+    <div class="chart-card">
+
+      <h2>Estado de las actividades</h2>
+
+      <canvas
+        baseChart
+        [data]="{
+          labels: activityStatusLabels,
+          datasets: activityStatusData
+        }"
+        [type]="'pie'">
+      </canvas>
+
+    </div>
+
+    <div class="chart-card">
+
+      <h2>Actividades por mes</h2>
+
+      <canvas
+        baseChart
+        [data]="{
+          labels: monthlyActivitiesLabels,
+          datasets: monthlyActivitiesData
+        }"
+        [type]="'line'">
+      </canvas>
+
+    </div>
+
+    <div class="chart-card">
+
+      <h2>Empleados por dependencia</h2>
+
+      <canvas
+        baseChart
+        [data]="{
+          labels: dependencyLabels,
+          datasets: dependencyData
+        }"
+        [type]="'bar'">
+      </canvas>
+
+    </div>
+
+    <div class="chart-card">
+
+      <h2>Distribución de ausencias</h2>
+
+      <canvas
+        baseChart
+        [data]="{
+          labels: absenceLabels,
+          datasets: absenceData
+        }"
+        [type]="'doughnut'">
+      </canvas>
+
+    </div>
+
+    <div class="chart-card">
+
+      <h2>Incapacidades por mes</h2>
+
+      <canvas
+        baseChart
+        [data]="{
+          labels: sickLeavesMonthLabels,
+          datasets: sickLeavesMonthData
+        }"
+        [type]="'line'">
+      </canvas>
+
+    </div>
+
+    <div class="chart-card">
+
+      <h2>Vacaciones por mes</h2>
+
+      <canvas
+        baseChart
+        [data]="{
+          labels: vacationMonthLabels,
+          datasets: vacationMonthData
+        }"
+        [type]="'bar'">
+      </canvas>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,111 @@
+<div class="page-container">
+
+  <h1 class="page-title">
+    Cumpleaños
+  </h1>
+
+  <p class="page-subtitle">
+    Próximos cumpleaños de los empleados
+  </p>
+
+  <div class="filters">
+
+    <input
+      type="text"
+      placeholder="Buscar empleado"
+      [(ngModel)]="searchTerm"
+      (input)="filterBirthdays()">
+
+  </div>
+
+  <table *ngIf="!loading">
+
+    <thead>
+
+      <tr>
+
+        <th>Documento</th>
+
+        <th>Empleado</th>
+
+        <th>Dependencia</th>
+
+        <th>Cumpleaños</th>
+
+        <th>Estado</th>
+
+        <th>Acciones</th>
+
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      <tr
+        *ngFor="let birthday of filteredBirthdays">
+
+        <td>
+
+          {{ birthday.documentNumber }}
+
+        </td>
+
+        <td>
+
+          {{ birthday.firstName }}
+          {{ birthday.lastName }}
+
+        </td>
+
+        <td>
+
+          {{ birthday.dependencyName }}
+
+        </td>
+
+        <td>
+
+          {{ birthday.birthDate }}
+
+        </td>
+
+        <td>
+
+          <span
+            *ngIf="birthday.notificationSent"
+            class="badge badge-success">
+
+            Enviado
+
+          </span>
+
+          <span
+            *ngIf="!birthday.notificationSent"
+            class="badge badge-warning">
+
+            Pendiente
+
+          </span>
+
+        </td>
+
+        <td>
+
+          <button
+            class="btn btn-primary"
+            (click)="sendGreeting(birthday)">
+
+            Enviar felicitación
+
+          </button>
+
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

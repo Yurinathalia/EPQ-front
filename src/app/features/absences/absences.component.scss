@@ -1,0 +1,135 @@
+.actions {
+
+  margin-bottom: 20px;
+
+}
+
+table {
+
+  margin-top: 20px;
+
+}
+
+tbody tr:hover {
+
+  background: #f8fafc;
+
+}
+
+.filters {
+
+  margin-bottom: 20px;
+
+}
+
+.filters select {
+
+  width: 250px;
+
+  padding: 10px;
+
+  border-radius: 10px;
+
+  border: 1px solid #cbd5e1;
+
+  background: white;
+
+  cursor: pointer;
+
+}
+
+.actions {
+
+  margin-bottom: 20px;
+
+}
+
+.filters {
+
+  display: flex;
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+
+  flex-wrap: wrap;
+
+}
+
+.filters input {
+
+  flex: 1;
+
+  min-width: 300px;
+
+  padding: 10px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 10px;
+
+}
+
+.filters select {
+
+  min-width: 200px;
+
+  padding: 10px;
+
+  border-radius: 10px;
+
+  border: 1px solid #cbd5e1;
+
+}
+
+.filters {
+
+  display: flex;
+
+  gap: 15px;
+
+  margin-bottom: 20px;
+
+  flex-wrap: wrap;
+
+}
+
+.filters input {
+
+  flex: 1;
+
+  min-width: 300px;
+
+  padding: 10px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 10px;
+
+}
+
+.filters select {
+
+  min-width: 220px;
+
+  padding: 10px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 10px;
+
+}
+
+table {
+
+  margin-top: 20px;
+
+}
+
+tbody tr:hover {
+
+  background: #f8fafc;
+
+  transition: .2s;
+
+}

@@ -1,0 +1,142 @@
+<div class="page-container">
+
+  <h1 class="page-title">
+
+    Registrar ausencia
+
+  </h1>
+
+  <p class="page-subtitle">
+
+    Registra vacaciones, permisos,
+    ausencias e incapacidades.
+
+  </p>
+
+  <div class="form-card">
+
+    <div class="form-group">
+
+      <label>
+
+        Empleado
+
+      </label>
+
+      <input
+        type="text"
+        placeholder="Buscar por documento, nombre o apellido"
+        [(ngModel)]="form.employeeSearch">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>
+
+        Tipo
+
+      </label>
+
+      <select
+        [(ngModel)]="form.absenceType">
+
+        <option value="">
+          Selecciona...
+        </option>
+
+        <option value="SICK_LEAVE">
+          Incapacidad
+        </option>
+
+        <option value="VACATION">
+          Vacaciones
+        </option>
+
+        <option value="PERMISSION">
+          Permiso
+        </option>
+
+        <option value="ABSENCE">
+          Ausencia
+        </option>
+
+        <option value="OTHER">
+          Otro
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="row">
+
+      <div class="form-group">
+
+        <label>
+
+          Fecha de inicio
+
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="form.startDate">
+
+      </div>
+
+      <div class="form-group">
+
+        <label>
+
+          Fecha de fin
+
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="form.endDate">
+
+      </div>
+
+    </div>
+
+    <div class="form-group">
+
+      <label>
+
+        Código de referencia
+
+      </label>
+
+      <input
+        type="text"
+        [(ngModel)]="form.referenceCode">
+
+    </div>
+
+    <div class="form-group">
+
+      <label>
+
+        Observación
+
+      </label>
+
+      <textarea
+        rows="4"
+        [(ngModel)]="form.generalNote"></textarea>
+
+    </div>
+
+    <button
+      class="btn btn-primary"
+      (click)="save()">
+
+      Guardar
+
+    </button>
+
+  </div>
+
+</div>

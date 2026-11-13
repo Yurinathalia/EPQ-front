@@ -1,0 +1,52 @@
+<section class="page"><h1>Crear o editar actividad</h1><form><label>Nombre<input name="name" type="text"></label><label>Tipo<select name="type"><option>Capacitación</option><option>Jornada</option><option>Evento</option><option>Reunión</option></select></label><label>Fecha<input name="date" type="date"></label><label>Descripción<textarea name="description"></textarea></label><button type="button">Guardar</button></form></section>
+<div class="page-container">
+
+  <h1 class="page-title">
+
+    Nueva actividad
+
+  </h1>
+
+  <div class="form-card">
+
+    <input
+      type="text"
+      placeholder="Título"
+      [(ngModel)]="form.title">
+
+    <textarea
+      placeholder="Descripción"
+      [(ngModel)]="form.description"></textarea>
+
+    <select
+      [(ngModel)]="form.activityType">
+
+      <option value="TRAINING">
+        Capacitación
+      </option>
+
+      <option value="MEETING">
+        Reunión
+      </option>
+
+      <option value="EVENT">
+        Evento
+      </option>
+
+      <option value="CAMPAIGN">
+        Campaña
+      </option>
+
+    </select>
+
+    <button
+      class="btn btn-primary"
+      (click)="save()">
+
+      Guardar actividad
+
+    </button>
+
+  </div>
+
+</div>

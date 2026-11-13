@@ -1,0 +1,87 @@
+<div class="page-container">
+  <h1 class="page-title">Gestión de ausencias</h1>
+
+  <p class="page-subtitle">Incapacidades, vacaciones, permisos y ausencias</p>
+
+  <div class="filters">
+    <input
+      type="text"
+      placeholder="Buscar por nombre, apellido o documento"
+      [(ngModel)]="searchTerm"
+      (input)="filterAbsences()"
+    />
+
+    <select [(ngModel)]="selectedType" (change)="filterAbsences()">
+      <option value="ALL">Todos los tipos</option>
+
+      <option value="SICK_LEAVE">Incapacidad</option>
+
+      <option value="VACATION">Vacaciones</option>
+
+      <option value="PERMISSION">Permiso</option>
+
+      <option value="ABSENCE">Ausencia</option>
+
+      <option value="OTHER">Otro</option>
+    </select>
+
+    <button class="btn btn-primary" routerLink="/absence-form">Registrar ausencia</button>
+  </div>
+
+  <div *ngIf="loading">Cargando ausencias...</div>
+
+  <table *ngIf="!loading">
+    <thead>
+      <tr>
+        <th>Documento</th>
+
+        <th>Empleado</th>
+
+        <th>Tipo</th>
+
+        <th>Fecha de inicio</th>
+
+        <th>Fecha de fin</th>
+
+        <th>Días</th>
+
+        <th>Estado</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let absence of filteredAbsences">
+        <td>
+          {{ absence.documentNumber }}
+        </td>
+
+        <td>
+          {{ absence.employeeName }}
+          {{ absence.employeeLastName }}
+        </td>
+
+        <td>
+          {{ getAbsenceTypeLabel(absence.absenceType) }}
+        </td>
+
+        <td>
+          {{ absence.startDate }}
+        </td>
+
+        <td>
+          {{ absence.endDate }}
+        </td>
+
+        <td>
+          {{ absence.daysCount }}
+        </td>
+
+        <td>
+          <span class="badge badge-success">
+            {{ getStatusLabel(absence.status) }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
