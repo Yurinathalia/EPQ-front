@@ -170,11 +170,13 @@ export class EmployeesComponent implements OnInit {
       fullName: nombreCompleto
 
     };
+    this.previewImage = employee.photoUrl || null;
 
   }
 
   cancelEdit(): void {
     this.editingEmployee = null;
+    this.previewImage = null;
     this.saveError = '';
   }
 
@@ -231,6 +233,7 @@ export class EmployeesComponent implements OnInit {
         );
         this.saveSuccess = 'Empleado actualizado correctamente.';
         this.editingEmployee = null;
+        this.previewImage = null;
         this.saving = false;
 
         if (this.searched) {
