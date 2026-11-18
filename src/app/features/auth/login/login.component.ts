@@ -16,6 +16,7 @@ export class LoginComponent {
   email = '';
   registrationPassword = '';
   isRegistering = false;
+  showPassword = false;
   loading = false;
   errorMessage = '';
   successMessage = '';
@@ -58,8 +59,13 @@ export class LoginComponent {
     if (this.loading) return;
 
     this.isRegistering = !this.isRegistering;
+    this.showPassword = false;
     this.errorMessage = '';
     this.successMessage = '';
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   private register(): void {

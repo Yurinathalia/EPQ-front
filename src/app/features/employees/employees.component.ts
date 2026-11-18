@@ -139,13 +139,35 @@ export class EmployeesComponent implements OnInit {
 
   }
 
-  editEmployee(
-    employee: Employee
-  ): void {
+  editEmployee(employee: Employee): void {
+
+    const nombreCompleto =
+
+      employee.fullName ||
+
+      [
+
+        employee.firstName,
+
+        employee.middleName,
+
+        employee.lastName,
+
+        employee.secondLastName
+
+      ]
+
+        .filter(value =>
+          value &&
+          value.trim() !== ''
+        )
+        .join(' ');
 
     this.editingEmployee = {
 
-      ...employee
+      ...employee,
+
+      fullName: nombreCompleto
 
     };
 
@@ -221,6 +243,67 @@ export class EmployeesComponent implements OnInit {
         this.saving = false;
       }
     });
+  }
+
+  getEmployeeFullName(employee: Employee): string {
+
+    if (employee.fullName &&
+      employee.fullName.trim() !== '') {
+
+      return employee.fullName;
+
+    }
+
+    return [
+
+      employee.firstName,
+
+      employee.middleName,
+
+      employee.lastName,
+
+      employee.secondLastName
+
+    ]
+      .filter(value =>
+        value &&
+        value.trim() !== ''
+      )
+      .join(' ');
+
+  }
+
+  previewImage: string | null = null;
+
+  onFileSelected(event: any): void {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) {
+
+      return;
+
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      this.previewImage =
+        reader.result as string;
+
+      if (this.editingEmployee) {
+
+        this.editingEmployee.photoUrl =
+          this.previewImage;
+
+      }
+
+    };
+
+    reader.readAsDataURL(file);
+
   }
 
 }

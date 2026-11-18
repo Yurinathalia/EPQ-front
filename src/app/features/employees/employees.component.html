@@ -4,22 +4,15 @@
   <p class="page-subtitle">Consulta y gestión de empleados</p>
 
   <div class="search-box">
+    <input
+      type="text"
+      placeholder="Buscar por nombre completo, documento, cargo, ciudad o teléfono"
+      [(ngModel)]="searchTerm"
+      (input)="searchEmployee()"
+    />
 
-  <input
-    type="text"
-    placeholder="Buscar por nombre completo, documento, cargo, ciudad o teléfono"
-    [(ngModel)]="searchTerm"
-    (input)="searchEmployee()">
-
-  <button
-    class="btn btn-primary"
-    (click)="searchEmployee()">
-
-    Buscar
-
-  </button>
-
-</div>
+    <button class="btn btn-primary" (click)="searchEmployee()">Buscar</button>
+  </div>
 
   <div *ngIf="searched && filteredEmployees.length === 0" class="no-results">
     No se encontraron empleados.
@@ -53,110 +46,183 @@
 
     <div *ngIf="editingEmployee?.id === employee.id" class="edit-overlay">
       <ng-container *ngIf="editingEmployee as formEmployee">
-      <section class="edit-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-title">
-        <h2 id="edit-title">Editar empleado</h2>
-        <p class="edit-id">ID del empleado: {{ formEmployee.id }} (no editable)</p>
+        <section class="edit-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+          <h2 id="edit-title">Editar empleado</h2>
+          <p class="edit-id">ID del empleado: {{ formEmployee.id }} (no editable)</p>
 
-        <form (ngSubmit)="saveEmployee()">
-          <div class="edit-fields">
-            <label>
-              Tipo de documento
-              <input name="documentType" [(ngModel)]="formEmployee.documentType">
-            </label>
-            <label>
-              Número de documento
-              <input name="documentNumber" [(ngModel)]="formEmployee.documentNumber">
-            </label>
-            <label>
-              Primer nombre
-              <input name="firstName" [(ngModel)]="formEmployee.firstName">
-            </label>
-            <label>
-              Segundo nombre
-              <input name="middleName" [(ngModel)]="formEmployee.middleName">
-            </label>
-            <label>
-              Primer apellido
-              <input name="lastName" [(ngModel)]="formEmployee.lastName">
-            </label>
-            <label>
-              Segundo apellido
-              <input name="secondLastName" [(ngModel)]="formEmployee.secondLastName">
-            </label>
-            <label>
-              Sexo
-              <input name="sex" [(ngModel)]="formEmployee.sex">
-            </label>
-            <label>
-              Fecha de nacimiento
-              <input name="birthDate" type="date" [(ngModel)]="formEmployee.birthDate">
-            </label>
-            <label>
-              Dirección
-              <input name="address" [(ngModel)]="formEmployee.address">
-            </label>
-            <label>
-              Ciudad
-              <input name="city" [(ngModel)]="formEmployee.city">
-            </label>
-            <label>
-              Teléfono
-              <input name="phone" type="tel" [(ngModel)]="formEmployee.phone">
-            </label>
-            <label>
-              Correo personal
-              <input name="personalEmail" type="email" [(ngModel)]="formEmployee.personalEmail">
-            </label>
-            <label>
-              Correo institucional
-              <input name="institutionalEmail" type="email" [(ngModel)]="formEmployee.institutionalEmail">
-            </label>
-            <label>
-              Cargo
-              <input name="jobTitle" [(ngModel)]="formEmployee.jobTitle">
-            </label>
-            <label>
-              URL de la foto
-              <input name="photoUrl" type="url" [(ngModel)]="formEmployee.photoUrl">
-            </label>
-            <label>
-              Estado laboral
-              <input name="employmentStatus" [(ngModel)]="formEmployee.employmentStatus">
-            </label>
-            <label>
-              Fecha de ingreso
-              <input name="hireDate" type="date" [(ngModel)]="formEmployee.hireDate">
-            </label>
-            <label>
-              Fecha de retiro
-              <input name="endDate" type="date" [(ngModel)]="formEmployee.endDate">
-            </label>
-            <label>
-              Número de cuenta
-              <input name="accountNumber" [(ngModel)]="formEmployee.accountNumber">
-            </label>
-            <label>
-              Tipo de contrato
-              <input name="contractType" [(ngModel)]="formEmployee.contractType">
-            </label>
-            <label>
-              Salario
-              <input name="salary" type="number" min="0" step="any" [(ngModel)]="formEmployee.salary">
-            </label>
-          </div>
+          <form (ngSubmit)="saveEmployee()">
+            <!-- DATOS PERSONALES -->
 
-          <p *ngIf="saveError" class="save-error" role="alert">{{ saveError }}</p>
+            <div class="section">
+              <h3>Datos Personales</h3>
 
-          <div class="edit-actions">
-            <button type="button" class="btn btn-secondary" (click)="cancelEdit()" [disabled]="saving">
-              Cancelar
-            </button>
-            <button type="submit" class="btn btn-success" [disabled]="saving">
-              {{ saving ? 'Guardando...' : 'Guardar cambios' }}
-            </button>
-          </div>
-        </form>
-      </section>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Nombre Completo</label>
+
+                  <input [value]="getEmployeeFullName(formEmployee)" readonly />
+                </div>
+                <div class="field">
+                  <label>Documento</label>
+
+                  <input name="documentNumber" [(ngModel)]="formEmployee.documentNumber" />
+                </div>
+
+                <div class="field">
+                  <label>Sexo</label>
+
+                  <select name="sex" [(ngModel)]="formEmployee.sex">
+                    <option value="M">Masculino</option>
+
+                    <option value="F">Femenino</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Fecha Nacimiento</label>
+
+                  <input type="date" name="birthDate" [(ngModel)]="formEmployee.birthDate" />
+                </div>
+
+                <div class="field">
+                  <label>Ciudad</label>
+
+                  <input name="city" [(ngModel)]="formEmployee.city" />
+                </div>
+
+                <div class="field">
+                  <label>Teléfono</label>
+
+                  <input name="phone" [(ngModel)]="formEmployee.phone" />
+                </div>
+              </div>
+
+              <div class="field full-width">
+                <label>Dirección</label>
+
+                <input name="address" [(ngModel)]="formEmployee.address" />
+              </div>
+            </div>
+
+            <!-- CONTACTO -->
+
+            <div class="section">
+              <h3>Información de Contacto</h3>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label>Correo Personal</label>
+
+                  <input
+                    type="email"
+                    name="personalEmail"
+                    [(ngModel)]="formEmployee.personalEmail"
+                  />
+                </div>
+
+                <div class="field">
+                  <label>Correo Institucional</label>
+
+                  <input
+                    type="email"
+                    name="institutionalEmail"
+                    [(ngModel)]="formEmployee.institutionalEmail"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- INFORMACIÓN LABORAL -->
+
+            <div class="section">
+              <h3>Información Laboral</h3>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label>Cargo</label>
+
+                  <input name="jobTitle" [(ngModel)]="formEmployee.jobTitle" />
+                </div>
+
+                <div class="field">
+                  <label>Estado</label>
+
+                  <select name="employmentStatus" [(ngModel)]="formEmployee.employmentStatus">
+                    <option value="ACTIVE">Activo</option>
+
+                    <option value="INACTIVE">Inactivo</option>
+
+                    <option value="LEAVE">Licencia</option>
+
+                    <option value="RETIRED">Retirado</option>
+                  </select>
+                </div>
+
+                <div class="field">
+                  <label>Número de Cuenta</label>
+
+                  <input name="accountNumber" [(ngModel)]="formEmployee.accountNumber" />
+                </div>
+
+                <div class="field">
+                  <label>Tipo de Contrato</label>
+
+                  <input name="contractType" [(ngModel)]="formEmployee.contractType" />
+                </div>
+
+                <div class="field">
+                  <label>Salario</label>
+
+                  <input type="number" name="salary" [(ngModel)]="formEmployee.salary" />
+                </div>
+
+                <div class="field">
+                  <label>Fecha de Ingreso</label>
+
+                  <input type="date" name="hireDate" [(ngModel)]="formEmployee.hireDate" />
+                </div>
+
+                <div class="field">
+                  <label>Fecha de Retiro</label>
+
+                  <input type="date" name="endDate" [(ngModel)]="formEmployee.endDate" />
+                </div>
+              </div>
+            </div>
+
+            <!-- FOTO -->
+
+            <div class="section">
+              <h3>Fotografía</h3>
+
+              <div class="field">
+                <div class="photo-upload-section">
+                  <label class="photo-title"> Fotografía del Empleado </label>
+
+                  <div class="photo-preview">
+                    <img *ngIf="previewImage" [src]="previewImage" />
+
+                    <div *ngIf="!previewImage" class="empty-photo">👤</div>
+                  </div>
+
+                  <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+                </div>
+              </div>
+            </div>
+
+            <p *ngIf="saveError" class="save-error">
+              {{ saveError }}
+            </p>
+
+            <div class="edit-actions">
+              <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+                Cancelar
+              </button>
+
+              <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            </div>
+          </form>
+        </section>
       </ng-container>
     </div>
 
@@ -270,5 +336,4 @@
       <button class="btn btn-success" (click)="editEmployee(employee)">Editar</button>
     </div>
   </div>
-
 </div>
