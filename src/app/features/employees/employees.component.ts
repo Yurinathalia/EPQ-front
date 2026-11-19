@@ -309,4 +309,26 @@ export class EmployeesComponent implements OnInit {
 
   }
 
+  showExitConfirmation = false;
+
+  confirmCloseEdit(): void {
+
+    this.showExitConfirmation = true;
+
+  }
+
+  closeEditConfirmed(): void {
+
+    this.showExitConfirmation = false;
+
+    this.cancelEdit();
+
+  }
+
+  continueEditing(): void {
+
+    this.showExitConfirmation = false;
+
+  }
+
 }

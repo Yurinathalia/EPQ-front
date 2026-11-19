@@ -11,7 +11,6 @@
       (input)="searchEmployee()"
     />
 
-    <button class="btn btn-primary" (click)="searchEmployee()">Buscar</button>
   </div>
 
   <div *ngIf="searched && filteredEmployees.length === 0" class="no-results">
@@ -47,6 +46,7 @@
     <div *ngIf="editingEmployee?.id === employee.id" class="edit-overlay">
       <ng-container *ngIf="editingEmployee as formEmployee">
         <section class="edit-dialog" role="dialog" aria-modal="true" aria-labelledby="edit-title">
+          <button type="button" class="close-edit" (click)="confirmCloseEdit()">✕</button>
           <h2 id="edit-title">Editar empleado</h2>
           <p class="edit-id">ID del empleado: {{ formEmployee.id }} (no editable)</p>
 
@@ -215,14 +215,31 @@
             </p>
 
             <div class="edit-actions">
-              <button type="button" class="btn-cancel" (click)="cancelEdit()">
+              <button type="button" class="btn-cancel" (click)="confirmCloseEdit()">
                 Cancelar
               </button>
-
               <button type="submit" class="btn-save">Guardar Cambios</button>
             </div>
           </form>
         </section>
+        <div *ngIf="showExitConfirmation" class="confirm-overlay">
+          <div class="confirm-dialog">
+            <h3>Confirmar salida</h3>
+
+            <p>
+              ¿Está seguro que desea salir de la edición del empleado? Los cambios que no haya
+              guardado se perderán.
+            </p>
+
+            <div class="confirm-actions">
+              <button type="button" class="btn-continue" (click)="continueEditing()">
+                Continuar editando
+              </button>
+
+              <button type="button" class="btn-exit" (click)="closeEditConfirmed()">Salir</button>
+            </div>
+          </div>
+        </div>
       </ng-container>
     </div>
 
