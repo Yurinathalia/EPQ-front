@@ -52,15 +52,43 @@
         Plantillas
       </a>
 
-      <a routerLink="/notifications">
-        Notificaciones
-      </a>
-
     </nav>
 
   </aside>
 
   <main [class.content]="!isLoginRoute" [class.login-content]="isLoginRoute">
+
+    <div class="topbar" *ngIf="!isLoginRoute">
+
+      <div class="topbar-title">
+        <div class="title-copy">
+          <span class="topbar-brand">EPQ</span>
+          <span class="topbar-page">{{ tituloPagina }}</span>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+
+        <app-notification-bell></app-notification-bell>
+
+        <div class="user-chip" title="Usuario actual">
+          <div class="avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="avatar-status"></span>
+          </div>
+          <div class="user-copy">
+            <span class="user-hola">Bienvenido(a),</span>
+            <span class="user-name">{{ usuario }}</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
 
     <router-outlet></router-outlet>
 

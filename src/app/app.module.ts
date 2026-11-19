@@ -17,6 +17,7 @@ import { DependencyDetailComponent } from './features/dependency-detail/dependen
 import { EmployeesComponent } from './features/employees/employees.component';
 import { HistoryComponent } from './features/history/history.component';
 import { NavbarComponent } from './features/layout/navbar/navbar.component';
+import { NotificationBellComponent } from './features/layout/notification-bell/notification-bell.component';
 import { ReportsComponent } from './features/reports/reports.component';
 import { StatisticsComponent } from './features/statistics/statistics.component';
 import { ModalComponent } from './shared/components/modal/modal.component';
@@ -45,6 +46,7 @@ import { NotificationsComponent } from './features/notifications/notifications.c
     EmployeesComponent,
     HistoryComponent,
     NavbarComponent,
+    NotificationBellComponent,
     ReportsComponent,
     StatisticsComponent,
     ModalComponent,
