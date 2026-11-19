@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { Employee } from '../../core/models/employee.model';
 
@@ -49,8 +50,13 @@ export class EmployeesComponent implements OnInit {
       next: (response) => {
 
         this.employees = response;
+        this.actionError = '';
 
         this.loading = false;
+
+        if (this.searched) {
+          this.searchEmployee();
+        }
 
       },
 
@@ -139,20 +145,44 @@ export class EmployeesComponent implements OnInit {
 
   }
 
-  editEmployee(
-    employee: Employee
-  ): void {
+  editEmployee(employee: Employee): void {
+
+    const nombreCompleto =
+
+      employee.fullName ||
+
+      [
+
+        employee.firstName,
+
+        employee.middleName,
+
+        employee.lastName,
+
+        employee.secondLastName
+
+      ]
+
+        .filter(value =>
+          value &&
+          value.trim() !== ''
+        )
+        .join(' ');
 
     this.editingEmployee = {
 
-      ...employee
+      ...employee,
+
+      fullName: nombreCompleto
 
     };
+    this.previewImage = employee.photoUrl || null;
 
   }
 
   cancelEdit(): void {
     this.editingEmployee = null;
+    this.previewImage = null;
     this.saveError = '';
   }
 
@@ -209,6 +239,7 @@ export class EmployeesComponent implements OnInit {
         );
         this.saveSuccess = 'Empleado actualizado correctamente.';
         this.editingEmployee = null;
+        this.previewImage = null;
         this.saving = false;
 
         if (this.searched) {
@@ -221,6 +252,261 @@ export class EmployeesComponent implements OnInit {
         this.saving = false;
       }
     });
+  }
+
+  getEmployeeFullName(employee: Employee): string {
+
+    if (employee.fullName &&
+      employee.fullName.trim() !== '') {
+
+      return employee.fullName;
+
+    }
+
+    return [
+
+      employee.firstName,
+
+      employee.middleName,
+
+      employee.lastName,
+
+      employee.secondLastName
+
+    ]
+      .filter(value =>
+        value &&
+        value.trim() !== ''
+      )
+      .join(' ');
+
+  }
+
+  previewImage: string | null = null;
+
+  onFileSelected(event: any): void {
+
+    const file =
+      event.target.files[0];
+
+    if (!file) {
+
+      return;
+
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      this.previewImage =
+        reader.result as string;
+
+      if (this.editingEmployee) {
+
+        this.editingEmployee.photoUrl =
+          this.previewImage;
+
+      } else if (this.showCreateModal) {
+
+        this.newEmployee.photoUrl = this.previewImage;
+
+      }
+
+    };
+
+    reader.readAsDataURL(file);
+
+  }
+
+  showExitConfirmation = false;
+
+  confirmCloseEdit(): void {
+
+    this.showExitConfirmation = true;
+
+  }
+
+  closeEditConfirmed(): void {
+
+    this.showExitConfirmation = false;
+
+    this.cancelEdit();
+
+  }
+
+  continueEditing(): void {
+
+    this.showExitConfirmation = false;
+
+  }
+
+  showCreateModal = false;
+
+  newEmployee: Omit<Employee, 'id'> = {} as Omit<Employee, 'id'>;
+
+  openCreateEmployee(): void {
+
+    this.newEmployee = {
+
+      documentType: 'CC',
+
+      documentNumber: '',
+
+      firstName: '',
+
+      middleName: '',
+
+      lastName: '',
+
+      secondLastName: '',
+
+      fullName: '',
+
+      sex: '',
+
+      birthDate: '',
+
+      address: '',
+
+      city: '',
+
+      phone: '',
+
+      personalEmail: '',
+
+      institutionalEmail: '',
+
+      jobTitle: '',
+
+      photoUrl: '',
+
+      employmentStatus: 'ACTIVE',
+
+      hireDate: '',
+
+      endDate: '',
+
+      accountNumber: '',
+
+      contractType: '',
+
+      salary: 0,
+
+      age: 0,
+
+    };
+
+    this.previewImage = null;
+    this.saveError = '';
+    this.saveSuccess = '';
+    this.showCreateModal = true;
+
+  }
+
+  saveNewEmployee(): void {
+
+    if (this.saving) {
+      return;
+    }
+
+    const employeeToCreate = {
+      ...this.newEmployee,
+      fullName: [
+        this.newEmployee.firstName,
+        this.newEmployee.middleName,
+        this.newEmployee.lastName,
+        this.newEmployee.secondLastName
+      ]
+        .filter(Boolean)
+        .join(' ')
+    };
+
+    this.saving = true;
+    this.saveError = '';
+    this.saveSuccess = '';
+
+    this.employeeService.create(employeeToCreate).subscribe({
+
+      next: (createdEmployee) => {
+
+        this.showCreateModal = false;
+
+        this.employees = [...this.employees, createdEmployee];
+
+        this.saveSuccess =
+          'Empleado creado correctamente.';
+        this.saveError = '';
+        this.saving = false;
+
+        if (this.searched) {
+          this.searchEmployee();
+        }
+
+      },
+
+      error: (error) => {
+
+        console.error('No se pudo crear el empleado.', error);
+        this.saveError = 'No se pudo crear el empleado. Revisa los datos e inténtalo de nuevo.';
+        this.saving = false;
+
+      }
+
+    });
+
+  }
+
+  deleteEmployee(employee: Employee): void {
+
+    const confirmado = confirm(
+
+      `¿Está seguro de retirar del directorio a ${this.getEmployeeFullName(employee)}?`
+
+    );
+
+    if (!confirmado) {
+
+      return;
+
+    }
+
+    this.actionError = '';
+    this.saveSuccess = '';
+
+    this.employeeService.delete(employee.id).subscribe({
+
+      next: () => {
+
+        this.employees = this.employees.filter(({ id }) => id !== employee.id);
+        this.saveSuccess = 'Empleado retirado del directorio correctamente.';
+
+        if (this.searched) {
+          this.searchEmployee();
+        }
+
+      },
+
+      error: (error: HttpErrorResponse) => {
+
+        console.error('No se pudo eliminar el empleado.', error);
+        const detail = error.status === 0
+          ? 'sin respuesta del servidor (HTTP 0)'
+          : `HTTP ${error.status}`;
+        this.actionError = `No se pudo eliminar el empleado (${detail}). Revisa la consola para ver el detalle.`;
+
+      }
+
+    });
+
+  }
+
+  actionError = '';
+
+  cancelCreateEmployee(): void {
+    this.showCreateModal = false;
+    this.previewImage = null;
+    this.saveError = '';
   }
 
 }
