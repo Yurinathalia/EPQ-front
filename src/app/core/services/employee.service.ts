@@ -25,5 +25,22 @@ export class EmployeeService {
 
   }
 
+  create(employee: Omit<Employee, 'id'>): Observable<Employee> {
+
+    return this.http.post<Employee>(
+      this.apiUrl,
+      employee
+    );
+
+  }
+
+  delete(id: number): Observable<void> {
+
+    return this.http.delete<void>(
+      `${this.apiUrl}/${id}`
+    );
+
+  }
+
 
 }

@@ -3,6 +3,10 @@
 
   <p class="page-subtitle">Consulta y gestión de empleados</p>
 
+  <div class="employee-toolbar">
+    <button class="btn-add" (click)="openCreateEmployee()">➕ Agregar Usuario</button>
+  </div>
+
   <div class="search-box">
     <input
       type="text"
@@ -10,7 +14,6 @@
       [(ngModel)]="searchTerm"
       (input)="searchEmployee()"
     />
-
   </div>
 
   <div *ngIf="searched && filteredEmployees.length === 0" class="no-results">
@@ -20,6 +23,10 @@
   <div *ngIf="saveSuccess" class="save-success" role="status">
     {{ saveSuccess }}
   </div>
+
+  <p *ngIf="actionError" class="save-error" role="alert">
+    {{ actionError }}
+  </p>
 
   <div *ngFor="let employee of filteredEmployees" class="employee-card">
     <div class="employee-header">
@@ -187,6 +194,9 @@
 
                   <input type="date" name="endDate" [(ngModel)]="formEmployee.endDate" />
                 </div>
+
+                <div class="actions">
+                </div>
               </div>
             </div>
 
@@ -208,7 +218,12 @@
                   <input type="file" accept="image/*" (change)="onFileSelected($event)" />
                 </div>
               </div>
+
+
+
             </div>
+
+
 
             <p *ngIf="saveError" class="save-error">
               {{ saveError }}
@@ -350,7 +365,279 @@
     </div>
 
     <div class="actions">
-      <button class="btn btn-success" (click)="editEmployee(employee)">Editar</button>
-    </div>
+
+  <button
+    type="button"
+    class="btn btn-success"
+    (click)="editEmployee(employee)">
+
+    Editar
+
+  </button>
+
+  <button
+    *ngIf="editingEmployee?.id !== employee.id"
+    type="button"
+    class="btn-delete"
+    (click)="deleteEmployee(employee)">
+
+    Retirar del directorio
+
+  </button>
+
+</div>
   </div>
+
+  <div *ngIf="showCreateModal" class="edit-overlay">
+    <section class="edit-dialog" role="dialog" aria-modal="true" aria-labelledby="create-title">
+      <button
+        type="button"
+        class="close-edit"
+        aria-label="Cerrar formulario"
+        [disabled]="saving"
+        (click)="cancelCreateEmployee()"
+      >
+        ✕
+      </button>
+      <h2 id="create-title">Agregar empleado</h2>
+
+      <form (ngSubmit)="saveNewEmployee()">
+        <div class="section">
+          <h3>Datos Personales</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="create-document-type">Tipo Documento</label>
+              <input
+                id="create-document-type"
+                name="documentType"
+                [(ngModel)]="newEmployee.documentType"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-document-number">Documento</label>
+              <input
+                id="create-document-number"
+                name="documentNumber"
+                [(ngModel)]="newEmployee.documentNumber"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-first-name">Primer nombre</label>
+              <input
+                id="create-first-name"
+                name="firstName"
+                [(ngModel)]="newEmployee.firstName"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-middle-name">Segundo nombre</label>
+              <input
+                id="create-middle-name"
+                name="middleName"
+                [(ngModel)]="newEmployee.middleName"
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-last-name">Primer apellido</label>
+              <input
+                id="create-last-name"
+                name="lastName"
+                [(ngModel)]="newEmployee.lastName"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-second-last-name">Segundo apellido</label>
+              <input
+                id="create-second-last-name"
+                name="secondLastName"
+                [(ngModel)]="newEmployee.secondLastName"
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-sex">Sexo</label>
+              <select id="create-sex" name="sex" [(ngModel)]="newEmployee.sex">
+                <option value="">Seleccione</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="create-birth-date">Fecha Nacimiento</label>
+              <input
+                id="create-birth-date"
+                type="date"
+                name="birthDate"
+                [(ngModel)]="newEmployee.birthDate"
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-city">Ciudad</label>
+              <input id="create-city" name="city" [(ngModel)]="newEmployee.city" />
+            </div>
+
+            <div class="field">
+              <label for="create-phone">Teléfono</label>
+              <input id="create-phone" name="phone" [(ngModel)]="newEmployee.phone" />
+            </div>
+          </div>
+
+          <div class="field full-width">
+            <label for="create-address">Dirección</label>
+            <input id="create-address" name="address" [(ngModel)]="newEmployee.address" />
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Información de Contacto</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="create-personal-email">Correo Personal</label>
+              <input
+                id="create-personal-email"
+                type="email"
+                name="personalEmail"
+                [(ngModel)]="newEmployee.personalEmail"
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-institutional-email">Correo Institucional</label>
+              <input
+                id="create-institutional-email"
+                type="email"
+                name="institutionalEmail"
+                [(ngModel)]="newEmployee.institutionalEmail"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Información Laboral</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="create-job-title">Cargo</label>
+              <input id="create-job-title" name="jobTitle" [(ngModel)]="newEmployee.jobTitle" />
+            </div>
+
+            <div class="field">
+              <label for="create-employment-status">Estado</label>
+              <select
+                id="create-employment-status"
+                name="employmentStatus"
+                [(ngModel)]="newEmployee.employmentStatus"
+              >
+                <option value="ACTIVE">Activo</option>
+                <option value="INACTIVE">Inactivo</option>
+                <option value="LEAVE">Licencia</option>
+                <option value="RETIRED">Retirado</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="create-account-number">Número de Cuenta</label>
+              <input
+                id="create-account-number"
+                name="accountNumber"
+                [(ngModel)]="newEmployee.accountNumber"
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-contract-type">Tipo de Contrato</label>
+              <input
+                id="create-contract-type"
+                name="contractType"
+                [(ngModel)]="newEmployee.contractType"
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-salary">Salario</label>
+              <input
+                id="create-salary"
+                type="number"
+                name="salary"
+                [(ngModel)]="newEmployee.salary"
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-hire-date">Fecha de Ingreso</label>
+              <input
+                id="create-hire-date"
+                type="date"
+                name="hireDate"
+                [(ngModel)]="newEmployee.hireDate"
+              />
+            </div>
+
+            <div class="field">
+              <label for="create-end-date">Fecha de Retiro</label>
+              <input
+                id="create-end-date"
+                type="date"
+                name="endDate"
+                [(ngModel)]="newEmployee.endDate"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Fotografía</h3>
+          <div class="field">
+            <div class="photo-upload-section">
+              <label class="photo-title" for="create-photo">Fotografía del Empleado</label>
+              <div class="photo-preview">
+                <img *ngIf="previewImage" [src]="previewImage" alt="Vista previa del empleado" />
+                <div *ngIf="!previewImage" class="empty-photo">👤</div>
+              </div>
+              <input
+                id="create-photo"
+                type="file"
+                accept="image/*"
+                [disabled]="saving"
+                (change)="onFileSelected($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <p *ngIf="saveError" class="save-error" role="alert">
+          {{ saveError }}
+        </p>
+
+        <div class="edit-actions">
+          <button
+            type="button"
+            class="btn-cancel"
+            [disabled]="saving"
+            (click)="cancelCreateEmployee()"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn-save" [disabled]="saving">
+            {{ saving ? 'Guardando...' : 'Agregar Usuario' }}
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+
 </div>
