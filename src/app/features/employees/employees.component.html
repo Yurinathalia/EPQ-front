@@ -4,13 +4,13 @@
   <p class="page-subtitle">Consulta y gestión de empleados</p>
 
   <div class="employee-toolbar">
-    <button class="btn-add" (click)="openCreateEmployee()">➕ Agregar Usuario</button>
+    <button class="btn-add" (click)="openCreateEmployee()">Agregar Usuario</button>
   </div>
 
   <div class="search-box">
     <input
       type="text"
-      placeholder="Buscar por nombre completo, documento, cargo, ciudad o teléfono"
+      placeholder="Buscar por nombre completo, documento o teléfono"
       [(ngModel)]="searchTerm"
       (input)="searchEmployee()"
     />
@@ -44,9 +44,6 @@
           {{ employee.secondLastName }}
         </h2>
 
-        <span class="status">
-          {{ employee.employmentStatus }}
-        </span>
       </div>
     </div>
 

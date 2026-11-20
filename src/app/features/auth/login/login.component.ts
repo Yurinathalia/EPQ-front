@@ -25,7 +25,7 @@ export class LoginComponent {
     private readonly authService: AuthService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
-  ) {}
+  ) { }
 
   submit(): void {
     if (this.loading) return;
@@ -134,4 +134,25 @@ export class LoginComponent {
 
     return fallback;
   }
+
+  verificationCode = '';
+
+  emailVerified = false;
+
+  sendVerificationCode(): void {
+
+  if (!this.email) {
+
+    this.errorMessage =
+      'Debe ingresar un correo electrónico';
+
+    return;
+
+  }
+
+  this.successMessage =
+    'Código enviado al correo correctamente';
+
+}
+
 }

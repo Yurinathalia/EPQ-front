@@ -50,31 +50,53 @@
       </ng-container>
 
       <ng-template #registrationFields>
-        <input
-          type="text"
-          name="username"
-          placeholder="Nombre de usuario"
-          autocomplete="username"
-          [(ngModel)]="username"
-          required>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Correo electrónico"
-          autocomplete="email"
-          [(ngModel)]="email"
-          required>
+  <input
+    type="text"
+    name="username"
+    placeholder="Nombre de usuario"
+    autocomplete="username"
+    [(ngModel)]="username"
+    required>
 
-        <input
-          type="password"
-          name="registrationPassword"
-          placeholder="Contraseña (mínimo 6 caracteres)"
-          autocomplete="new-password"
-          [(ngModel)]="registrationPassword"
-          minlength="6"
-          required>
-      </ng-template>
+  <input
+    type="email"
+    name="email"
+    placeholder="Correo electrónico"
+    autocomplete="email"
+    [(ngModel)]="email"
+    required>
+
+  <div class="verification-row">
+
+    <input
+      type="text"
+      name="verificationCode"
+      placeholder="Código de verificación"
+      [(ngModel)]="verificationCode">
+
+    <button
+      type="button"
+      class="send-code-button"
+      (click)="sendVerificationCode()">
+
+      Enviar código
+
+    </button>
+
+  </div>
+
+  <input
+    type="password"
+    name="registrationPassword"
+    placeholder="Contraseña (mínimo 6 caracteres)"
+    autocomplete="new-password"
+    [(ngModel)]="registrationPassword"
+    minlength="6"
+    required>
+
+</ng-template>
+
 
       <button
         type="submit"

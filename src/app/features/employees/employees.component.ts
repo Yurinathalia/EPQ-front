@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Employee } from '../../core/models/employee.model';
@@ -11,7 +11,7 @@ import { EmployeeService } from '../../core/services/employee.service';
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.scss']
 })
-export class EmployeesComponent implements OnInit {
+export class EmployeesComponent implements OnInit, OnDestroy {
 
   employees: Employee[] = [];
 
@@ -31,6 +31,8 @@ export class EmployeesComponent implements OnInit {
 
   saveSuccess = '';
 
+  private saveSuccessTimeout: ReturnType<typeof setTimeout> | null = null;
+
   constructor(
     private employeeService: EmployeeService
   ) { }
@@ -39,6 +41,26 @@ export class EmployeesComponent implements OnInit {
 
     this.loadEmployees();
 
+  }
+
+  ngOnDestroy(): void {
+    this.clearSaveSuccessTimeout();
+  }
+
+  private showSaveSuccess(message: string): void {
+    this.clearSaveSuccessTimeout();
+    this.saveSuccess = message;
+    this.saveSuccessTimeout = setTimeout(() => {
+      this.saveSuccess = '';
+      this.saveSuccessTimeout = null;
+    }, 10000);
+  }
+
+  private clearSaveSuccessTimeout(): void {
+    if (this.saveSuccessTimeout !== null) {
+      clearTimeout(this.saveSuccessTimeout);
+      this.saveSuccessTimeout = null;
+    }
   }
 
   loadEmployees(): void {
@@ -237,7 +259,7 @@ export class EmployeesComponent implements OnInit {
         this.employees = this.employees.map(employee =>
           employee.id === updatedEmployee.id ? updatedEmployee : employee
         );
-        this.saveSuccess = 'Empleado actualizado correctamente.';
+        this.showSaveSuccess('Empleado actualizado correctamente.');
         this.editingEmployee = null;
         this.previewImage = null;
         this.saving = false;
@@ -434,8 +456,7 @@ export class EmployeesComponent implements OnInit {
 
         this.employees = [...this.employees, createdEmployee];
 
-        this.saveSuccess =
-          'Empleado creado correctamente.';
+        this.showSaveSuccess('Empleado creado correctamente.');
         this.saveError = '';
         this.saving = false;
 
